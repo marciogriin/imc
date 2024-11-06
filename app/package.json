@@ -1,0 +1,17 @@
+{
+  "name": "Calculo de IMC",
+  "version": "1.0.0",
+  "description": "calculo e cadastro de imc",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "keywords": [
+    "Hello"
+  ],
+  "author": "Marcio",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
