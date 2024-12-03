@@ -15,60 +15,91 @@ const server = http.createServer(function processaRequisicao(request, response) 
     <title>Calculo de IMC</title>
 </head>
 <body>
-    <form>
+    <h1>Problema: Calcular o Índice de Massa Corporal (IMC)</h1>
+    <form action="/calcular-imc" method="post">
         <label>
-            <span>Nome</span>
-            <input name="nome" />
+            <span>Peso (kg):</span>
+            <input name="peso" type="number" step="0.1" required />
         </label>
+        <br>
         <label>
-            <span>Altura</span>
-            <input name="altura" type="number" />
+            <span>Altura (m):</span>
+            <input name="altura" type="number" step="0.01" required />
         </label>
-        <label></label>
-            <span>Peso</span>
-            <input name="peso" type="number" />
-        </label>
-        <button>Enviar</button>
+        <br>
+        <button type="submit">Calcular</button>
     </form>
 </body>
 </html>
         `);
         response.end();
-    }
-    else if (url == '/idade') {
+    } else if (url == '/calcular-imc' && request.method === 'POST') {
         let rawBody = '';
         request.on('data', (chunk) => {
             rawBody += chunk;
         });
         request.on('end', () => {
-            console.log('raw', rawBody);
-            let body = urlDecode(rawBody);
-            console.log('parsed', body);
+            const body = urlDecode(rawBody);
+            const peso = parseFloat(body.peso);
+            const altura = parseFloat(body.altura);
+            const imc = peso / (altura * altura);
 
-            let ano = parseInt(body.ano);
-            let idade = 2024 - ano;
-
-            response.writeHead(200, {'Content-Type': 'text/plain'});
-            response.write(`Olá, ${body.nome}! Você nasceu em ${body.ano}. Tem ${idade} anos!\n`)
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(`
+                <html>
+                <head>
+                    <title>Resultado do Cálculo do IMC</title>
+                </head>
+                <body>
+                    <h1>Problema: Calcular o Índice de Massa Corporal (IMC)</h1>
+                    <p><strong>Enunciado:</strong> Dado o peso (em kg) e a altura (em metros) de uma pessoa, calcule o IMC.</p>
+                    <p><strong>Cálculo:</strong> IMC = Peso (${peso} kg) / (Altura (${altura} m)²)</p>
+                    <p><strong>Resposta:</strong> O IMC calculado é ${imc.toFixed(2)}.</p>
+                    <a href="/index">Voltar ao formulário</a>
+                </body>
+                </html>
+            `);
             response.end();
         });
-    }
-    else {
+    } else if (url == '/autor') {
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.write(`
+            <html>
+            <head>
+                <title>Autor</title>
+            </head>
+            <body>
+                <h1>Informações do Autor</h1>
+                <p><strong>Nome:</strong> Marcio Teixeira</p>
+                <h2>Formações Acadêmicas</h2>
+                <ul>
+                    <li>Estudante, IFCE</li>
+                </ul>
+                <h2>Experiências Profissionais</h2>
+                <ul>
+                    <li>Nenhuma experiência profissional</li>
+                </ul>
+                <a href="/index">Voltar ao início</a>
+            </body>
+            </html>
+        `);
+        response.end();
+    } else {
         response.writeHead(404, {'Content-Type': 'text/plain'});
-        response.write('Não encontrado!\n')
+        response.write('Não encontrado!\n');
         response.end();
     }
 });
 
 server.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
 
 function urlDecode(urlEncoded) {
     let json = {};
     for (let variaveis of urlEncoded.split('&')) {
         let [variavel, valor] = variaveis.split('=');
-        json[variavel] = valor;
+        json[variavel] = decodeURIComponent(valor);
     }
     return json;
 }
