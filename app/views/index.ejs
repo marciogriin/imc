@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculo de IMC</title>
+</head>
+<body>
+    <h1>Problema: Calcular o Índice de Massa Corporal (IMC)</h1>
+    <form action="/calcular-imc" method="post">
+        <label>
+            <span>Peso (kg):</span>
+            <input name="peso" type="number" step="0.1" required />
+        </label>
+        <br>
+        <label>
+            <span>Altura (m):</span>
+            <input name="altura" type="number" step="0.01" required />
+        </label>
+        <br>
+        <button type="submit">Calcular</button>
+    </form>
+</body>
+</html>
