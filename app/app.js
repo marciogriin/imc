@@ -56,6 +56,16 @@ app.post('/calcular-imc', (req, res) => {
     res.json({ imc: imc.toFixed(2), classificacao });
 });
 
+app.get('/index', (req, res) => {
+    res.render('index');
+});
+
+app.get('/login', (req, res) => {
+    res.render('login');
+});
+
+
+
 // Rota para páginas não encontradas
 app.get('*', (req, res) => {
     res.status(404).send('Página não encontrada!');

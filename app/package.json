@@ -4,7 +4,8 @@
   "description": "calculo e cadastro de imc",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app/app.js"
+
   },
   "keywords": [
     "Hello"
